@@ -12,7 +12,7 @@ import {
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { computeNext, defaultState } from "@/lib/backup/store";
-import { cloudSync as sync } from "@/lib/backup/sync";
+import { cloudSync as sync, getSyncSource, type SyncSource } from "@/lib/backup/sync";
 import { makeBackupFile } from "@/lib/backup/files";
 import type { BackupFile, BackupState, ScheduleFreq } from "@/lib/backup/types";
 import { ensureNotificationPermission, notify } from "@/lib/notifications";
@@ -24,6 +24,7 @@ type BackupValue = {
   runBackup: () => Promise<void>;
   removeFile: (id: string) => void;
   busy: boolean;
+  syncSource: SyncSource;
 };
 
 const BackupContext = createContext<BackupValue | null>(null);
@@ -35,6 +36,7 @@ export function BackupProvider({ children }: { children: React.ReactNode }) {
 
   const [state, setState] = useState<BackupState>(defaultState);
   const [busy, setBusy] = useState(false);
+  const [syncSource, setSyncSource] = useState<SyncSource>("local");
   const stateRef = useRef(state);
   stateRef.current = state;
   const emailRef = useRef(email);
@@ -45,7 +47,10 @@ export function BackupProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let cancelled = false;
     sync.load(email).then((s) => {
-      if (!cancelled) setState(s);
+      if (!cancelled) {
+        setState(s);
+        setSyncSource(getSyncSource());
+      }
     });
     return () => {
       cancelled = true;
@@ -54,7 +59,9 @@ export function BackupProvider({ children }: { children: React.ReactNode }) {
 
   const persist = useCallback((next: BackupState) => {
     setState(next);
-    void sync.save(emailRef.current, next);
+    void sync.save(emailRef.current, next).then(() =>
+      setSyncSource(getSyncSource()),
+    );
   }, []);
 
   const setSchedule = useCallback(
@@ -143,8 +150,8 @@ export function BackupProvider({ children }: { children: React.ReactNode }) {
   }, [persist]);
 
   const value = useMemo<BackupValue>(
-    () => ({ state, setSchedule, addFiles, runBackup, removeFile, busy }),
-    [state, setSchedule, addFiles, runBackup, removeFile, busy],
+    () => ({ state, setSchedule, addFiles, runBackup, removeFile, busy, syncSource }),
+    [state, setSchedule, addFiles, runBackup, removeFile, busy, syncSource],
   );
 
   return <BackupContext.Provider value={value}>{children}</BackupContext.Provider>;

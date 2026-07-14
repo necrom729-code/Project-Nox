@@ -144,4 +144,9 @@ export const fr: Dict = {
     replyRestore: "Ouvrez Mes fichiers, choisissez un élément sauvegardé et appuyez sur Restaurer pour le récupérer instantanément.",
     replyLanguage: "Allez dans Paramètres pour passer NECROM dans l'une de nos 10 langues.",
   },
+
+  sync: {
+    cloud: "Synchronisé sur le cloud",
+    local: "Enregistré sur cet appareil",
+  },
 };

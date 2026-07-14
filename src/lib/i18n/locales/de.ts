@@ -144,4 +144,9 @@ export const de: Dict = {
     replyRestore: "Öffne Meine Dateien, wähle ein gesichertes Element und tippe auf Wiederherstellen, um es sofort zurückzuholen.",
     replyLanguage: "Gehe zu Einstellungen, um NECROM auf eine unserer 10 Sprachen umzustellen.",
   },
+
+  sync: {
+    cloud: "Mit Cloud synchronisiert",
+    local: "Auf diesem Gerät gespeichert",
+  },
 };

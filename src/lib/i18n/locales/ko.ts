@@ -144,4 +144,9 @@ export const ko: Dict = {
     replyRestore: "내 파일을 열고 백업된 항목을 선택한 뒤 복원을 탭하면 즉시 되돌릴 수 있습니다.",
     replyLanguage: "설정에서 NECROM을 지원하는 10개 언어 중 하나로 전환할 수 있습니다.",
   },
+
+  sync: {
+    cloud: "클라우드 동기화됨",
+    local: "이 기기에 저장됨",
+  },
 };

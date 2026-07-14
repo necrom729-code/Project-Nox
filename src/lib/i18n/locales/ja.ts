@@ -144,4 +144,9 @@ export const ja: Dict = {
     replyRestore: "マイファイルを開き、保存済みの項目を選んで「復元」をタップすればすぐに戻ります。",
     replyLanguage: "設定からNECROMを10の対応言語のいずれかに切り替えられます。",
   },
+
+  sync: {
+    cloud: "クラウドに同期済み",
+    local: "このデバイスに保存",
+  },
 };

@@ -149,4 +149,9 @@ export const en: Dict = {
     replyLanguage:
       "Go to Settings to switch NECROM to any of our 10 supported languages.",
   },
+
+  sync: {
+    cloud: "Synced to cloud",
+    local: "Saved on this device",
+  },
 };
