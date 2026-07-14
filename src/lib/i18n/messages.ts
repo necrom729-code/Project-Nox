@@ -1,18 +1,27 @@
 import { DEFAULT_LOCALE, type Locale } from "./config";
 import type { Dict } from "./types";
 import { en } from "./locales/en";
+import { th } from "./locales/th";
+import { fr } from "./locales/fr";
+import { it } from "./locales/it";
+import { de } from "./locales/de";
+import { ja } from "./locales/ja";
+import { ko } from "./locales/ko";
+import { ms } from "./locales/ms";
+import { id } from "./locales/id";
+import { ru } from "./locales/ru";
 
 export const messages: Record<Locale, Dict> = {
   en,
-  th: {},
-  fr: {},
-  it: {},
-  de: {},
-  ja: {},
-  ko: {},
-  ms: {},
-  id: {},
-  ru: {},
+  th,
+  fr,
+  it,
+  de,
+  ja,
+  ko,
+  ms,
+  id,
+  ru,
 };
 
 export function translate(

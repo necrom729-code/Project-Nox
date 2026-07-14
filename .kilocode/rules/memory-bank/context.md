@@ -70,7 +70,13 @@ feature areas from the brief map to web equivalents.
 
 - [ ] Phase 3: Media preview/playback (PDF, image+zoom, video, audio)
 - [ ] Phase 4: Mascot states — idle / scroll-reactive / press (60fps)
-- [ ] Phase 5: Localization for all 10 languages (EN, TH, FR, IT, DE, JA, KO, MS, ID, RU)
+- [x] **Phase 5 — Localization (all 10 languages)**
+  - Full translations for TH, FR, IT, DE, JA, KO, MS, ID, RU in
+    `src/lib/i18n/locales/*` (EN already done in Phase 1)
+  - Verified 89-key parity across all 9 non-English locales (no fallback needed)
+  - `src/app/dashboard/settings/page.tsx`: language switcher (10 locales) + schedule
+  - `messages.ts` imports all 10 locales
+  - ✅ typecheck + lint + `next build` pass (11 routes)
 
 ## Notes
 
@@ -88,3 +94,5 @@ feature areas from the brief map to web equivalents.
 | 2026-07-14 | Initiated NECROM build; completed Phase 1 (auth + nav shell + i18n + idle mascot) |
 | 2026-07-14 | Completed Phase 2 (backup engine + scheduling + notifications + restore) |
 | 2026-07-14 | Completed Phase 3 (media preview/playback: image+zoom, video, audio, PDF) |
+| 2026-07-14 | Completed Phase 4 (mascot: idle/scroll-reactive/press states + tap feedback) |
+| 2026-07-14 | Completed Phase 5 (localization: 10 languages, settings page, 89-key parity) |
