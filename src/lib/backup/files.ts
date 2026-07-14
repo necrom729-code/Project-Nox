@@ -7,21 +7,24 @@ export function kindFromType(type: string): MediaKind {
   return "document";
 }
 
-export function toBackupFile(file: File): BackupFile {
+export function newId(): string {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random()}`;
+}
+
+// Build a backup entry that points at a server-hosted URL (cross-device safe),
+// rather than a device-local blob: URL.
+export function makeBackupFile(file: File, url: string): BackupFile {
   return {
-    id:
-      typeof crypto !== "undefined" && "randomUUID" in crypto
-        ? crypto.randomUUID()
-        : `${Date.now()}-${Math.random()}`,
+    id: newId(),
     name: file.name,
     kind: kindFromType(file.type || ""),
     size: file.size,
     addedAt: Date.now(),
     status: "pending",
-    url:
-      typeof URL !== "undefined" && "createObjectURL" in URL
-        ? URL.createObjectURL(file)
-        : undefined,
+    url,
   };
 }
 

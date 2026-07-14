@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { HardDriveUpload, Trash2, Upload } from "lucide-react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useBackup } from "@/lib/backup/BackupProvider";
-import { toBackupFile } from "@/lib/backup/files";
 import type { ScheduleFreq } from "@/lib/backup/types";
 import { GhostMascot } from "@/components/mascot/GhostMascot";
 import { Card } from "@/components/ui/Card";
@@ -24,7 +23,7 @@ export default function BackupPage() {
   function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-    addFiles(Array.from(files).map(toBackupFile));
+    addFiles(Array.from(files).map((f) => f as File));
     e.target.value = "";
   }
 

@@ -11,15 +11,16 @@ import {
 } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useAuth } from "@/lib/auth/AuthProvider";
-import { computeNext } from "@/lib/backup/store";
-import { localAccountSync as sync } from "@/lib/backup/sync";
+import { computeNext, defaultState } from "@/lib/backup/store";
+import { cloudSync as sync } from "@/lib/backup/sync";
+import { makeBackupFile } from "@/lib/backup/files";
 import type { BackupFile, BackupState, ScheduleFreq } from "@/lib/backup/types";
 import { ensureNotificationPermission, notify } from "@/lib/notifications";
 
 type BackupValue = {
   state: BackupState;
   setSchedule: (freq: ScheduleFreq) => void;
-  addFiles: (files: BackupFile[]) => void;
+  addFiles: (files: File[]) => Promise<void>;
   runBackup: () => Promise<void>;
   removeFile: (id: string) => void;
   busy: boolean;
@@ -32,23 +33,28 @@ export function BackupProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const email = user?.email ?? null;
 
-  const [state, setState] = useState<BackupState>(() => sync.load(email));
+  const [state, setState] = useState<BackupState>(defaultState);
   const [busy, setBusy] = useState(false);
   const stateRef = useRef(state);
   stateRef.current = state;
   const emailRef = useRef(email);
   emailRef.current = email;
 
-  // Reload the account's backup whenever the logged-in account changes
-  // (login, logout, or switching accounts) so the same email always maps to
-  // the same files.
+  // Load this account's backup from the server whenever the logged-in account
+  // changes. Same email on PC and Smartphone ⇒ same files.
   useEffect(() => {
-    setState(sync.load(email));
+    let cancelled = false;
+    sync.load(email).then((s) => {
+      if (!cancelled) setState(s);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [email]);
 
   const persist = useCallback((next: BackupState) => {
     setState(next);
-    sync.save(emailRef.current, next);
+    void sync.save(emailRef.current, next);
   }, []);
 
   const setSchedule = useCallback(
@@ -64,8 +70,23 @@ export function BackupProvider({ children }: { children: React.ReactNode }) {
   );
 
   const addFiles = useCallback(
-    (files: BackupFile[]) => {
-      persist({ ...stateRef.current, files: [...stateRef.current.files, ...files] });
+    async (files: File[]) => {
+      if (files.length === 0) return;
+      setBusy(true);
+      try {
+        const uploaded = await Promise.all(
+          files.map(async (f) => {
+            const url = await sync.uploadFile(f);
+            return makeBackupFile(f, url);
+          }),
+        );
+        persist({
+          ...stateRef.current,
+          files: [...stateRef.current.files, ...uploaded],
+        });
+      } finally {
+        setBusy(false);
+      }
     },
     [persist],
   );

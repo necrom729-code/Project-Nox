@@ -107,13 +107,15 @@ feature areas from the brief map to web equivalents.
 - **AI Assistant**: new `/dashboard/assistant` route + nav entry (Sparkles icon).
   Chat UI with the ghost avatar, keyword-matched canned replies (backup/restore/
   language), translatable `assistant.*` strings (x10). 12 routes total.
-- **Account-scoped backup (cross-device foundation)**: `store.ts` now keys the
-  backup by account email (`necrom.backup.<email>`), not one global bucket.
-  `BackupProvider` uses `useAuth()` email, reloads that account's backup on
-  login/logout/account-switch. New `sync.ts` defines a `BackupSync` interface
-  (`localAccountSync`) so the "cloud" layer is swappable for Firebase later.
-  NOTE: true PC⇄phone sync still needs a backend (Firebase Storage + Firestore);
-  blob URLs are device-local and cannot travel between devices.
+- **Real cross-device sync (server-backed)**: implemented actual sharing so the
+  same email on PC and Smartphone see the same files. Added Next.js API routes:
+  `GET/PUT /api/backup?email=` (metadata keyed by email, stored in `.data/
+  backups.json`) and `POST /api/files` + `GET /api/files/[id]` (uploads file
+  bytes to `uploads/` and serves them back). `BackupProvider` now uploads file
+  bytes to the server (so `url` is a server path usable on any device) and
+  loads/saves the account backup from the server on login/account-switch.
+  `sync.ts` `cloudSync` does the fetch calls and **falls back to per-account
+  localStorage** if the API is unreachable. `.data/` and `uploads/` gitignored.
 
 ## Session History
 
@@ -126,3 +128,4 @@ feature areas from the brief map to web equivalents.
 | 2026-07-14 | Completed Phase 5 (localization: 10 languages, settings page, 89-key parity) |
 | 2026-07-14 | Added delete (files + modal), NECROM word-by-word meaning, AI Assistant page |
 | 2026-07-14 | Account-scoped backup (per-email store + sync abstraction for future Firebase) |
+| 2026-07-14 | Real cross-device sync: server API routes (/api/backup, /api/files) + cloudSync |

@@ -1,28 +1,80 @@
-import type { BackupState } from "./types";
-import { loadBackup, saveBackup } from "./store";
+import type { BackupFile, BackupState } from "./types";
+import { defaultState, loadBackup, saveBackup } from "./store";
 
 /**
- * BackupSync is the "cloud" boundary for a user's backup.
- *
- * The default `localAccountSync` keeps each account's backup in
- * per-account localStorage, so the same email always maps to the same files
- * within a browser/device and across logins. This is the correct data model
- * for "same account ⇒ same backup".
- *
- * True cross-device sync (PC ⇄ Smartphone) requires a shared backend. To enable
- * it, implement this same interface against Firebase, e.g.:
- *   - Auth (the logged-in user's uid/email as the account key)
- *   - Cloud Storage for the actual file bytes (blob URLs are device-local and
- *     cannot travel between devices)
- *   - Firestore for the BackupState metadata (files, schedule, timestamps)
- * then export it as `cloudSync` and use it in BackupProvider instead.
+ * Cross-device sync. The default `cloudSync` talks to the Next.js server
+ * (API routes under /api/backup and /api/files), so the SAME account email on a
+ * PC and a Smartphone share one backup: files are uploaded to the server and
+ * the metadata is stored server-side keyed by email. If the server is
+ * unreachable it transparently falls back to per-account localStorage.
  */
-export interface BackupSync {
-  load: (email: string | null) => BackupState;
-  save: (email: string | null, state: BackupState) => void;
+
+const BACKUP_API = "/api/backup";
+const FILES_API = "/api/files";
+
+async function serverLoad(email: string): Promise<BackupState> {
+  const res = await fetch(`${BACKUP_API}?email=${encodeURIComponent(email)}`);
+  if (!res.ok) throw new Error("load failed");
+  return (await res.json()) as BackupState;
 }
 
-export const localAccountSync: BackupSync = {
-  load: (email) => loadBackup(email),
-  save: (email, state) => saveBackup(state, email),
+async function serverSave(email: string, state: BackupState): Promise<void> {
+  const res = await fetch(`${BACKUP_API}?email=${encodeURIComponent(email)}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(state),
+  });
+  if (!res.ok) throw new Error("save failed");
+}
+
+async function serverUpload(file: File): Promise<{ url: string }> {
+  const fd = new FormData();
+  fd.append("file", file);
+  const res = await fetch(FILES_API, { method: "POST", body: fd });
+  if (!res.ok) throw new Error("upload failed");
+  return (await res.json()) as { url: string };
+}
+
+function localUrl(file: File): string {
+  if (typeof URL !== "undefined" && "createObjectURL" in URL) {
+    return URL.createObjectURL(file);
+  }
+  return "";
+}
+
+export const cloudSync = {
+  async load(email: string | null): Promise<BackupState> {
+    if (email) {
+      try {
+        return await serverLoad(email);
+      } catch {
+        // fall through to local
+      }
+    }
+    return loadBackup(email);
+  },
+
+  async save(email: string | null, state: BackupState): Promise<void> {
+    if (email) {
+      try {
+        await serverSave(email, state);
+        return;
+      } catch {
+        // fall through to local
+      }
+    }
+    saveBackup(state, email);
+  },
+
+  // Upload a file; returns a URL usable from any device on this origin.
+  async uploadFile(file: File): Promise<string> {
+    try {
+      const { url } = await serverUpload(file);
+      return url;
+    } catch {
+      return localUrl(file);
+    }
+  },
 };
+
+export type { BackupFile };
