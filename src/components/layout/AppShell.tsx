@@ -8,6 +8,7 @@ import {
   FolderOpen,
   History,
   Settings as SettingsIcon,
+  Sparkles,
   LogOut,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
@@ -22,6 +23,7 @@ const NAV = [
   { href: "/dashboard/backup", key: "nav.backup", icon: HardDriveUpload },
   { href: "/dashboard/files", key: "nav.files", icon: FolderOpen },
   { href: "/dashboard/restore", key: "nav.restore", icon: History },
+  { href: "/dashboard/assistant", key: "assistant.title", icon: Sparkles },
   { href: "/dashboard/settings", key: "nav.settings", icon: SettingsIcon },
 ] as const;
 

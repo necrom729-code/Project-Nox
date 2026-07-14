@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Trash2, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { BackupFile } from "@/lib/backup/types";
 import { ImageViewer } from "./ImageViewer";
@@ -13,12 +13,14 @@ export function MediaModal({
   index,
   total,
   onNavigate,
+  onDelete,
   onClose,
 }: {
   file: BackupFile;
   index: number;
   total: number;
   onNavigate: (nextIndex: number) => void;
+  onDelete: (id: string) => void;
   onClose: () => void;
 }) {
   const { t } = useI18n();
@@ -43,6 +45,16 @@ export function MediaModal({
           <span className="shrink-0 text-xs text-white/40">
             {index + 1} / {total}
           </span>
+          <button
+            onClick={() => {
+              onDelete(file.id);
+              onClose();
+            }}
+            className="shrink-0 rounded-full bg-rose-500/20 p-2 text-rose-300 hover:bg-rose-500/30"
+            aria-label={t("deleteFile")}
+          >
+            <Trash2 size={18} />
+          </button>
           <button
             onClick={onClose}
             className="shrink-0 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"

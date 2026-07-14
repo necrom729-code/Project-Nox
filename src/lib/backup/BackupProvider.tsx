@@ -23,6 +23,7 @@ type BackupValue = {
   setSchedule: (freq: ScheduleFreq) => void;
   addFiles: (files: BackupFile[]) => void;
   runBackup: () => Promise<void>;
+  removeFile: (id: string) => void;
   busy: boolean;
 };
 
@@ -101,9 +102,18 @@ export function BackupProvider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(id);
   }, [runBackup]);
 
+  const removeFile = useCallback((id: string) => {
+    const prev = stateRef.current;
+    const target = prev.files.find((f) => f.id === id);
+    if (target?.url && typeof URL !== "undefined" && "revokeObjectURL" in URL) {
+      URL.revokeObjectURL(target.url);
+    }
+    persist({ ...prev, files: prev.files.filter((f) => f.id !== id) });
+  }, [persist]);
+
   const value = useMemo<BackupValue>(
-    () => ({ state, setSchedule, addFiles, runBackup, busy }),
-    [state, setSchedule, addFiles, runBackup, busy],
+    () => ({ state, setSchedule, addFiles, runBackup, removeFile, busy }),
+    [state, setSchedule, addFiles, runBackup, removeFile, busy],
   );
 
   return <BackupContext.Provider value={value}>{children}</BackupContext.Provider>;

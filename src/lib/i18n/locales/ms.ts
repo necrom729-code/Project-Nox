@@ -120,4 +120,28 @@ export const ms: Dict = {
     successBody: "{count} fail selamat.",
     failureBody: "Sesuatu tidak kena. Kami akan cuba lagi.",
   },
+
+  deleteFile: "Padam",
+
+  acronym: {
+    n: "Jangan",
+    e: "Sekali",
+    c: "Rosak",
+    r: "Hancur",
+    o: "Kita",
+    m: "Kenangan",
+  },
+
+  assistant: {
+    title: "Pembantu AI",
+    welcome: "Hai! Saya pembantu hantu NECROM. Tanya saya tentang sandaran, pemulihan atau fail anda.",
+    placeholder: "Tanya pembantu…",
+    send: "Hantar",
+    thinking: "Berfikir…",
+    clear: "Kosongkan",
+    fallback: "Saya pembantu demo. Cuba tanya tentang sandaran, pemulihan atau tukar bahasa.",
+    replyBackup: "Sandar sekarang dari tab Sandar, atau tetapkan jadual harian/mingguan supaya NECROM melindungi fail secara automatik.",
+    replyRestore: "Buka Fail Saya, pilih item yang disandar dan ketik Pulih untuk mengembalikannya serta-merta.",
+    replyLanguage: "Pergi ke Tetapan untuk tukar NECROM ke mana-mana 10 bahasa yang disokong.",
+  },
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { HardDriveUpload, Upload } from "lucide-react";
+import { HardDriveUpload, Trash2, Upload } from "lucide-react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useBackup } from "@/lib/backup/BackupProvider";
 import { toBackupFile } from "@/lib/backup/files";
@@ -18,7 +18,7 @@ const FREQS: { value: ScheduleFreq; key: string }[] = [
 
 export default function BackupPage() {
   const { t } = useI18n();
-  const { state, setSchedule, addFiles, runBackup, busy } = useBackup();
+  const { state, setSchedule, addFiles, removeFile, runBackup, busy } = useBackup();
   const inputRef = useRef<HTMLInputElement>(null);
 
   function onPick(e: React.ChangeEvent<HTMLInputElement>) {
@@ -115,9 +115,9 @@ export default function BackupPage() {
             {state.files.map((f) => (
               <li
                 key={f.id}
-                className="flex items-center justify-between py-2 text-sm"
+                className="flex items-center justify-between gap-2 py-2 text-sm"
               >
-                <span className="truncate">{f.name}</span>
+                <span className="min-w-0 flex-1 truncate">{f.name}</span>
                 <span
                   className={
                     f.status === "backed-up"
@@ -127,6 +127,13 @@ export default function BackupPage() {
                 >
                   {f.status === "backed-up" ? t("common.now") : "pending"}
                 </span>
+                <button
+                  onClick={() => removeFile(f.id)}
+                  className="rounded-full p-1.5 text-rose-300 hover:bg-rose-500/20"
+                  aria-label={t("deleteFile")}
+                >
+                  <Trash2 size={14} />
+                </button>
               </li>
             ))}
           </ul>

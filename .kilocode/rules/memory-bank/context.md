@@ -99,6 +99,14 @@ feature areas from the brief map to web equivalents.
   shows prev/next arrows so users can move between files without closing; inner
   clicks can no longer close the modal. `FilesPage` passes these props.
 - **AudioPlayer**: play/pause now driven by `play`/`pause` events (no desync).
+- **Delete option**: `BackupProvider.removeFile(id)` (revokes object URL); trash
+  button on each file card (`FilesPage`), each backup list row, and in `MediaModal`
+  header. Delete key is top-level `deleteFile` (translated x10).
+- **NECROM meaning**: top-level `acronym` (n/e/c/r/o/m words) shown word-by-word on
+  the login screen under the mascot.
+- **AI Assistant**: new `/dashboard/assistant` route + nav entry (Sparkles icon).
+  Chat UI with the ghost avatar, keyword-matched canned replies (backup/restore/
+  language), translatable `assistant.*` strings (x10). 12 routes total.
 
 ## Session History
 
@@ -109,3 +117,4 @@ feature areas from the brief map to web equivalents.
 | 2026-07-14 | Completed Phase 3 (media preview/playback: image+zoom, video, audio, PDF) |
 | 2026-07-14 | Completed Phase 4 (mascot: idle/scroll-reactive/press states + tap feedback) |
 | 2026-07-14 | Completed Phase 5 (localization: 10 languages, settings page, 89-key parity) |
+| 2026-07-14 | Added delete (files + modal), NECROM word-by-word meaning, AI Assistant page |

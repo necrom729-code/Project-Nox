@@ -120,4 +120,28 @@ export const it: Dict = {
     successBody: "{count} file sono al sicuro.",
     failureBody: "Qualcosa è andato storto. Riproveremo.",
   },
+
+  deleteFile: "Elimina",
+
+  acronym: {
+    n: "Mai",
+    e: "Mai",
+    c: "Crash",
+    r: "Rovina",
+    o: "I nostri",
+    m: "Ricordi",
+  },
+
+  assistant: {
+    title: "Assistente IA",
+    welcome: "Ciao! Sono l'assistente fantasma di NECROM. Chiedimi di backup, ripristino o dei tuoi file.",
+    placeholder: "Chiedi all'assistente…",
+    send: "Invia",
+    thinking: "Sto pensando…",
+    clear: "Cancella",
+    fallback: "Sono un assistente demo. Prova a chiedere di backup, ripristino o cambio lingua.",
+    replyBackup: "Esegui il backup ora dalla scheda Backup, o imposta una pianificazione giornaliera/settimanale così NECROM protegge i file automaticamente.",
+    replyRestore: "Apri I miei file, scegli un elemento salvato e tocca Ripristina per recuperarlo all'istante.",
+    replyLanguage: "Vai in Impostazioni per passare NECROM a una delle 10 lingue supportate.",
+  },
 };

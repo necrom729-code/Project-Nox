@@ -5,6 +5,7 @@ import {
   FileText,
   Image as ImageIcon,
   Music,
+  Trash2,
   Video,
   FolderOpen,
 } from "lucide-react";
@@ -33,7 +34,7 @@ const ORDER: MediaKind[] = ["photo", "video", "audio", "document"];
 
 export default function FilesPage() {
   const { t } = useI18n();
-  const { state } = useBackup();
+  const { state, removeFile } = useBackup();
   const [selected, setSelected] = useState<BackupFile | null>(null);
 
   const backedUp = state.files.filter((f) => f.status === "backed-up");
@@ -65,16 +66,24 @@ export default function FilesPage() {
               </h2>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
                 {items.map((f) => (
-                  <button
-                    key={f.id}
-                    onClick={() => setSelected(f)}
-                    className="group flex aspect-square flex-col items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 p-3 text-center transition-colors hover:bg-white/10"
-                  >
-                    <Icon size={32} className="text-indigo-300" />
-                    <span className="line-clamp-2 break-all text-xs text-white/80">
-                      {f.name}
-                    </span>
-                  </button>
+                  <div key={f.id} className="group relative">
+                    <button
+                      onClick={() => setSelected(f)}
+                      className="flex aspect-square w-full flex-col items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 p-3 text-center transition-colors hover:bg-white/10"
+                    >
+                      <Icon size={32} className="text-indigo-300" />
+                      <span className="line-clamp-2 break-all text-xs text-white/80">
+                        {f.name}
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => removeFile(f.id)}
+                      className="absolute right-2 top-2 rounded-full bg-rose-500/20 p-1.5 text-rose-300 opacity-0 transition-opacity hover:bg-rose-500/30 group-hover:opacity-100"
+                      aria-label={t("deleteFile")}
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -88,6 +97,7 @@ export default function FilesPage() {
           index={backedUp.findIndex((f) => f.id === selected.id)}
           total={backedUp.length}
           onNavigate={(i) => setSelected(backedUp[i])}
+          onDelete={removeFile}
           onClose={() => setSelected(null)}
         />
       )}

@@ -40,6 +40,21 @@ export default function LoginPage() {
             {t("app.name")}
           </h1>
           <p className="text-sm text-white/50">{t("auth.login.subtitle")}</p>
+          <div className="mt-4 flex flex-wrap justify-center gap-2">
+            {(["n", "e", "c", "r", "o", "m"] as const).map((l) => (
+              <div
+                key={l}
+                className="flex w-12 flex-col items-center rounded-lg bg-white/5 px-1 py-1.5"
+              >
+                <span className="text-sm font-black text-indigo-300 uppercase">
+                  {l}
+                </span>
+                <span className="text-[10px] leading-tight text-white/60">
+                  {t(`acronym.${l}`)}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
         <form
           onSubmit={onSubmit}

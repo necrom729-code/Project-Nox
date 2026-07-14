@@ -120,4 +120,28 @@ export const ko: Dict = {
     successBody: "파일 {count}개가 안전합니다.",
     failureBody: "문제가 발생했습니다. 다시 시도하겠습니다.",
   },
+
+  deleteFile: "삭제",
+
+  acronym: {
+    n: "절대",
+    e: "결코",
+    c: "고장",
+    r: "파괴",
+    o: "우리",
+    m: "추억",
+  },
+
+  assistant: {
+    title: "AI 어시스턴트",
+    welcome: "안녕하세요! 저는 NECROM의 고스트 어시스턴트입니다. 백업, 복원, 파일에 대해 물어보세요.",
+    placeholder: "어시스턴트에게 묻기…",
+    send: "전송",
+    thinking: "생각 중…",
+    clear: "지우기",
+    fallback: "저는 데모용 어시스턴트입니다. 백업, 복원, 언어 변경에 대해 물어보세요.",
+    replyBackup: "백업 탭에서 지금 백업하거나 매일/매주 일정을 설정해 NECROM이 파일을 자동으로 보호하게 하세요.",
+    replyRestore: "내 파일을 열고 백업된 항목을 선택한 뒤 복원을 탭하면 즉시 되돌릴 수 있습니다.",
+    replyLanguage: "설정에서 NECROM을 지원하는 10개 언어 중 하나로 전환할 수 있습니다.",
+  },
 };

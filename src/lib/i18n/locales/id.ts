@@ -120,4 +120,28 @@ export const id: Dict = {
     successBody: "{count} file telah aman.",
     failureBody: "Terjadi kesalahan. Kami akan mencoba lagi.",
   },
+
+  deleteFile: "Hapus",
+
+  acronym: {
+    n: "Jangan",
+    e: "Pernah",
+    c: "Rusak",
+    r: "Hancurkan",
+    o: "Kita",
+    m: "Kenangan",
+  },
+
+  assistant: {
+    title: "Asisten AI",
+    welcome: "Hai! Saya asisten hantu NECROM. Tanya saya tentang pencadangan, pemulihan, atau file Anda.",
+    placeholder: "Tanya asisten…",
+    send: "Kirim",
+    thinking: "Berpikir…",
+    clear: "Bersihkan",
+    fallback: "Saya asisten demo. Coba tanya tentang pencadangan, pemulihan, atau mengganti bahasa.",
+    replyBackup: "Cadangkan sekarang dari tab Cadangkan, atau atur jadwal harian/mingguan agar NECROM melindungi file secara otomatis.",
+    replyRestore: "Buka File Saya, pilih item yang dicadangkan, lalu ketuk Pulihkan untuk mengembalikannya seketika.",
+    replyLanguage: "Buka Pengaturan untuk mengubah NECROM ke salah satu dari 10 bahasa yang didukung.",
+  },
 };

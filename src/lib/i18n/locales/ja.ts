@@ -120,4 +120,28 @@ export const ja: Dict = {
     successBody: "{count} 件のファイルが安全です。",
     failureBody: "問題が発生しました。後ほど再試行します。",
   },
+
+  deleteFile: "削除",
+
+  acronym: {
+    n: "絶対に",
+    e: "決して",
+    c: "壊れ",
+    r: "滅び",
+    o: "私たちの",
+    m: "思い出",
+  },
+
+  assistant: {
+    title: "AIアシスタント",
+    welcome: "こんにちは！私はNECROMのゴーストアシスタントです。バックアップや復元、ファイルについて聞いてください。",
+    placeholder: "アシスタントに聞く…",
+    send: "送信",
+    thinking: "考え中…",
+    clear: "クリア",
+    fallback: "これはデモ用アシスタントです。バックアップや復元、言語変更について聞いてみてください。",
+    replyBackup: "バックアップタブから今すぐ保存するか、毎日/毎週のスケジュールを設定してNECROMに自動で守らせましょう。",
+    replyRestore: "マイファイルを開き、保存済みの項目を選んで「復元」をタップすればすぐに戻ります。",
+    replyLanguage: "設定からNECROMを10の対応言語のいずれかに切り替えられます。",
+  },
 };

@@ -120,4 +120,28 @@ export const de: Dict = {
     successBody: "{count} Dateien sind sicher.",
     failureBody: "Etwas ist schiefgelaufen. Wir versuchen es erneut.",
   },
+
+  deleteFile: "Löschen",
+
+  acronym: {
+    n: "Nie",
+    e: "Jemals",
+    c: "Absturz",
+    r: "Ruiniert",
+    o: "Unsere",
+    m: "Erinnerungen",
+  },
+
+  assistant: {
+    title: "KI-Assistent",
+    welcome: "Hallo! Ich bin NECROMs Geister-Assistent. Frage mich zu Backups, Wiederherstellung oder deinen Dateien.",
+    placeholder: "Frage den Assistenten…",
+    send: "Senden",
+    thinking: "Denke nach…",
+    clear: "Leeren",
+    fallback: "Ich bin ein Demo-Assistent. Frage doch zu Backup, Wiederherstellung oder Sprachwechsel.",
+    replyBackup: "Sichere jetzt über den Reiter Sicherung, oder stelle einen täglichen/wöchentlichen Plan ein, damit NECROM deine Dateien automatisch schützt.",
+    replyRestore: "Öffne Meine Dateien, wähle ein gesichertes Element und tippe auf Wiederherstellen, um es sofort zurückzuholen.",
+    replyLanguage: "Gehe zu Einstellungen, um NECROM auf eine unserer 10 Sprachen umzustellen.",
+  },
 };

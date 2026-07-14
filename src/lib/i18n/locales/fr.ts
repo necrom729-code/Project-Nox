@@ -120,4 +120,28 @@ export const fr: Dict = {
     successBody: "{count} fichiers sont en sécurité.",
     failureBody: "Une erreur est survenue. Nous réessayerons.",
   },
+
+  deleteFile: "Supprimer",
+
+  acronym: {
+    n: "Jamais",
+    e: "Jamais",
+    c: "Planter",
+    r: "Ruin",
+    o: "Nos",
+    m: "Souvenirs",
+  },
+
+  assistant: {
+    title: "Assistant IA",
+    welcome: "Salut ! Je suis l'assistant fantôme de NECROM. Posez vos questions sur les sauvegardes, la restauration ou vos fichiers.",
+    placeholder: "Demander à l'assistant…",
+    send: "Envoyer",
+    thinking: "Réflexion…",
+    clear: "Effacer",
+    fallback: "Je suis un assistant de démo. Essayez de demander sur la sauvegarde, la restauration ou le changement de langue.",
+    replyBackup: "Sauvegardez maintenant depuis l'onglet Sauvegarde, ou programmez un planning quotidien/hebdomadaire pour que NECROM protège vos fichiers automatiquement.",
+    replyRestore: "Ouvrez Mes fichiers, choisissez un élément sauvegardé et appuyez sur Restaurer pour le récupérer instantanément.",
+    replyLanguage: "Allez dans Paramètres pour passer NECROM dans l'une de nos 10 langues.",
+  },
 };

@@ -120,4 +120,33 @@ export const en: Dict = {
     successBody: "{count} files are safe.",
     failureBody: "Something went wrong. We'll try again.",
   },
+
+  deleteFile: "Delete",
+
+  acronym: {
+    n: "Never",
+    e: "Ever",
+    c: "Corrupt",
+    r: "Ruins",
+    o: "Our",
+    m: "Memories",
+  },
+
+  assistant: {
+    title: "AI Assistant",
+    welcome:
+      "Hi! I'm NECROM's ghost assistant. Ask me about backups, restore, or your files.",
+    placeholder: "Ask the assistant…",
+    send: "Send",
+    thinking: "Thinking…",
+    clear: "Clear",
+    fallback:
+      "I'm a demo assistant. Try asking about backup, restore, or changing the language.",
+    replyBackup:
+      "Back up now from the Backup tab, or set a daily/weekly schedule so NECROM protects your files automatically.",
+    replyRestore:
+      "Open My Files, pick any backed-up item, and tap Restore to bring it back instantly.",
+    replyLanguage:
+      "Go to Settings to switch NECROM to any of our 10 supported languages.",
+  },
 };
