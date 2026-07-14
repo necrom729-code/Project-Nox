@@ -1,48 +1,43 @@
-# Project Brief: Next.js Starter Template
+# Project Brief: NECROM
 
 ## Purpose
 
-This is a minimal Next.js starter template designed for AI-assisted development. It provides a clean foundation that can be extended to build any type of web application through interaction with an AI assistant.
+NECROM is a cross-platform cloud backup app with a cute chibi ghost mascot —
+the "resurrection" theme: the app's job is making sure your documents, photos,
+videos, and audio can always be brought back (hardware failure, ransomware,
+accidental deletion, human error).
 
 ## Target Users
 
-- Developers wanting a clean Next.js starting point
-- Users building applications through AI-assisted coding
-- Teams needing a standardized, modern Next.js setup
+- Everyday users who want automatic, scheduled cloud backups
+- Users who need one-tap restore/recovery of lost files
+- Multilingual users (10 languages supported)
 
-## Core Use Case
+## Implemented As
 
-Users describe what they want to build to an AI assistant, which then expands this template by:
+A **responsive Next.js 16 (App Router) + React 19 + TypeScript + Tailwind 4**
+web app (built with `bun`). The original product brief specified Flutter for
+Android/iOS/Windows/macOS, but the dev environment is a web sandbox with no
+Flutter toolchain, so the same feature set is delivered as a web app that works
+on desktop and mobile browsers.
 
-1. Adding components and pages as needed
-2. Installing additional dependencies
-3. Setting up databases, authentication, etc. using recipes
-4. Customizing styling and branding
+## Core Requirements
 
-## Key Requirements
-
-### Must Have
-
-- Modern Next.js 16 setup with App Router
-- TypeScript for type safety
-- Tailwind CSS 4 for styling
-- ESLint for code quality
-- Clean, minimal starting structure
-- Bun as package manager
-
-### Nice to Have
-
-- Recipe system for common additions (database, auth)
-- Memory bank for AI context persistence
-- Clear development guidelines
-
-## Success Metrics
-
-- Clean, zero-error TypeScript setup
-- Passing lint and type checks
+1. **Authentication** — email/password login/logout; session persisted across
+   restarts until explicit logout.
+2. **Automatic Cloud Backup** — scheduled (daily/weekly, user-configurable) +
+   manual "back up now"; notifications on start/success/failure; one-tap restore.
+3. **Media Preview & Playback** — in-app viewers for documents (PDF), photos
+   (pinch/zoom), videos (play/pause/seek), audio (play/pause/seek).
+4. **NECROM Mascot & Animation** — chibi ghost with idle / scroll-reactive /
+   press states; smooth 60fps on desktop and mobile.
+5. **Localization** — language switcher (EN, TH, FR, IT, DE, JA, KO, MS, ID, RU);
+   every UI string pulled from translation files, no hardcoded text.
 
 ## Constraints
 
-- Minimal dependencies by default
 - Framework: Next.js 16 + React 19 + Tailwind CSS 4
-- Package manager: Bun
+- Package manager: bun
+- Verify with `bun typecheck`, `bun lint`, `bun run build`
+- Auth/backend currently mocked locally (swap for Firebase if infrastructure
+  is later decided)

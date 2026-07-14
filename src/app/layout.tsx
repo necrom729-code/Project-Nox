@@ -1,33 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
+import { I18nProvider } from "@/lib/i18n/I18nProvider";
+import { AuthProvider } from "@/lib/auth/AuthProvider";
+import { BackupProvider } from "@/lib/backup/BackupProvider";
 export const metadata: Metadata = {
-  title: "Next.js Template",
-  description: "A minimal Next.js starter template",
+  title: "NECROM — Resurrect your files",
+  description:
+    "Cross-platform cloud backup with a cute chibi ghost. Documents, photos, videos and audio — always bring them back.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen bg-slate-950 antialiased">
+        <I18nProvider>
+          <AuthProvider>
+            <BackupProvider>{children}</BackupProvider>
+          </AuthProvider>
+        </I18nProvider>
       </body>
     </html>
   );

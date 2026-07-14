@@ -1,87 +1,90 @@
-# Active Context: Next.js Starter Template
+# Active Context: NECROM — Cloud Backup App
 
 ## Current State
 
-**Template Status**: ✅ Ready for development
+**Project**: NECROM, a cross-platform cloud backup web app (chibi-ghost mascot,
+"resurrection" theme). Built on the original Next.js 16 starter.
 
-The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. It's ready for AI-assisted expansion to build any type of application.
+**Stack decision**: The original product brief specified Flutter (Android/iOS/
+Windows/macOS), but this environment is a Next.js/bun web sandbox with no
+Flutter/Dart/Android SDK and no way to build or test native mobile/iOS. NECROM
+is therefore implemented as a **responsive Next.js 16 (App Router) + React 19 +
+TypeScript + Tailwind 4** web app — the only stack verifiable here. All five
+feature areas from the brief map to web equivalents.
 
 ## Recently Completed
 
-- [x] Base Next.js 16 setup with App Router
-- [x] TypeScript configuration with strict mode
-- [x] Tailwind CSS 4 integration
-- [x] ESLint configuration
-- [x] Memory bank documentation
-- [x] Recipe system for common features
+- [x] **Phase 1 — Auth + navigation shell**
+  - `src/lib/i18n/*`: lightweight typed i18n (10 locales, zero hardcoded strings)
+  - `src/lib/auth/AuthProvider.tsx`: mock email/password auth, session persisted
+    in `localStorage` across restarts
+  - `src/components/layout/AppShell.tsx`: sidebar + topbar (language switch,
+    logout) + mascot
+  - `src/app/login`, `src/app/register`, `src/app/dashboard` (guard + overview)
+  - `src/app/page.tsx`: redirects to /dashboard or /login
+  - `src/components/mascot/GhostMascot.tsx`: chibi ghost SVG, idle float/breathe
+  - Mascot keyframes in `globals.css` (idle/press/scroll + reduced-motion)
+  - Deps added: `framer-motion`, `lucide-react`
+  - ✅ typecheck + lint + `next build` all pass
+
+- [x] **Phase 2 — Backup engine + scheduling + notifications + restore**
+  - `src/lib/backup/types.ts`, `store.ts` (localStorage), `files.ts` (kind detect,
+    object URLs, byte formatting), `BackupProvider.tsx` (state, setSchedule,
+    addFiles, runBackup, 30s scheduler that fires when nextBackupAt passes)
+  - `src/lib/notifications/index.ts`: web Notification permission + notify()
+  - `src/app/dashboard/backup/page.tsx`: schedule (daily/weekly/off), back-up-now,
+    add files (image/video/audio/pdf)
+  - `src/app/dashboard/restore/page.tsx`: one-tap restore (download + notify)
+  - Overview wired to real backup counts/last/next
+  - ✅ typecheck + lint + `next build` all pass (9 routes)
+
+- [x] **Phase 3 — Media preview/playback (all 4 types)**
+  - `src/components/media/ImageViewer.tsx`: image with wheel/pinch zoom + buttons
+    (reset scale via remount key to stay lint-clean)
+  - `src/components/media/VideoPlayer.tsx`: <video controls> play/pause/seek
+  - `src/components/media/AudioPlayer.tsx`: custom play/pause + seekable progress
+  - `src/components/media/DocumentViewer.tsx`: PDF via <iframe>; other docs download
+  - `src/components/media/MediaModal.tsx`: kind-aware viewer modal
+  - `src/app/dashboard/files/page.tsx`: grouped grid (photo/video/audio/document)
+    of backed-up files, opens modal
+  - ✅ typecheck + lint + `next build` pass (10 routes)
+  - NOTE: true in-browser codec playback needs a real browser; verified build +
+    responsive layout. Sandbox is headless (no emulator) so desktop+mobile media
+    playback couldn't be exercised here.
 
 ## Current Structure
 
-| File/Directory | Purpose | Status |
-|----------------|---------|--------|
-| `src/app/page.tsx` | Home page | ✅ Ready |
-| `src/app/layout.tsx` | Root layout | ✅ Ready |
-| `src/app/globals.css` | Global styles | ✅ Ready |
-| `.kilocode/` | AI context & recipes | ✅ Ready |
+| Path | Purpose |
+|------|---------|
+| `src/lib/i18n/` | i18n provider, config (locales), messages registry, `locales/en.ts` |
+| `src/lib/auth/AuthProvider.tsx` | Auth context + session persistence |
+| `src/lib/backup/` | types, store, files, BackupProvider |
+| `src/lib/notifications/` | Web Notification helpers |
+| `src/components/ui/` | `Button`, `Card` primitives |
+| `src/components/layout/AppShell.tsx` | Dashboard shell (nav/topbar) |
+| `src/components/mascot/GhostMascot.tsx` | Chibi ghost mascot |
+| `src/app/{login,register,page}.tsx` | Auth + root redirect |
+| `src/app/dashboard/` | overview, backup, restore pages |
 
-## Current Focus
+## Pending Phases
 
-The template is ready. Next steps depend on user requirements:
+- [ ] Phase 3: Media preview/playback (PDF, image+zoom, video, audio)
+- [ ] Phase 4: Mascot states — idle / scroll-reactive / press (60fps)
+- [ ] Phase 5: Localization for all 10 languages (EN, TH, FR, IT, DE, JA, KO, MS, ID, RU)
 
-1. What type of application to build
-2. What features are needed
-3. Design/branding preferences
+## Notes
 
-## Quick Start Guide
-
-### To add a new page:
-
-Create a file at `src/app/[route]/page.tsx`:
-```tsx
-export default function NewPage() {
-  return <div>New page content</div>;
-}
-```
-
-### To add components:
-
-Create `src/components/` directory and add components:
-```tsx
-// src/components/ui/Button.tsx
-export function Button({ children }: { children: React.ReactNode }) {
-  return <button className="px-4 py-2 bg-blue-600 text-white rounded">{children}</button>;
-}
-```
-
-### To add a database:
-
-Follow `.kilocode/recipes/add-database.md`
-
-### To add API routes:
-
-Create `src/app/api/[route]/route.ts`:
-```tsx
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  return NextResponse.json({ message: "Hello" });
-}
-```
-
-## Available Recipes
-
-| Recipe | File | Use Case |
-|--------|------|----------|
-| Add Database | `.kilocode/recipes/add-database.md` | Data persistence with Drizzle + SQLite |
-
-## Pending Improvements
-
-- [ ] Add more recipes (auth, email, etc.)
-- [ ] Add example components
-- [ ] Add testing setup recipe
+- Build command is `bun run build` (runs `next build`); `bun build` alone is Bun's
+  bundler and is NOT the project build.
+- i18n `t(key)` falls back to English for missing keys; other locales are stubbed
+  empty until Phase 5.
+- Auth/backup are mocked locally (localStorage + object URLs); swap for Firebase
+  later if infrastructure is decided.
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
-| Initial | Template created with base setup |
+| 2026-07-14 | Initiated NECROM build; completed Phase 1 (auth + nav shell + i18n + idle mascot) |
+| 2026-07-14 | Completed Phase 2 (backup engine + scheduling + notifications + restore) |
+| 2026-07-14 | Completed Phase 3 (media preview/playback: image+zoom, video, audio, PDF) |

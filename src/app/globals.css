@@ -1,1 +1,87 @@
 @import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #020617;
+}
+
+/* NECROM chibi ghost — three animation states */
+.necrom-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+/* Idle: gentle float + breathe (always playing) */
+.necrom-ghost-idle {
+  animation:
+    necrom-float 4s ease-in-out infinite,
+    necrom-breathe 3s ease-in-out infinite;
+}
+
+@keyframes necrom-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.5deg);
+  }
+}
+
+@keyframes necrom-breathe {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.04;
+  }
+}
+
+/* Press: quick squish + bounce on tap */
+.necrom-ghost-press {
+  animation: necrom-squish 0.45s ease-out;
+}
+
+@keyframes necrom-squish {
+  0% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.2, 0.8);
+  }
+  60% {
+    transform: scale(0.92, 1.08);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* Scroll: subtle parallax drift (driven by scroll position) */
+.necrom-ghost-scroll {
+  animation: necrom-drift 6s ease-in-out infinite;
+}
+
+@keyframes necrom-drift {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .necrom-ghost {
+    animation: none !important;
+  }
+}
