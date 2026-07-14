@@ -107,6 +107,13 @@ feature areas from the brief map to web equivalents.
 - **AI Assistant**: new `/dashboard/assistant` route + nav entry (Sparkles icon).
   Chat UI with the ghost avatar, keyword-matched canned replies (backup/restore/
   language), translatable `assistant.*` strings (x10). 12 routes total.
+- **Account-scoped backup (cross-device foundation)**: `store.ts` now keys the
+  backup by account email (`necrom.backup.<email>`), not one global bucket.
+  `BackupProvider` uses `useAuth()` email, reloads that account's backup on
+  login/logout/account-switch. New `sync.ts` defines a `BackupSync` interface
+  (`localAccountSync`) so the "cloud" layer is swappable for Firebase later.
+  NOTE: true PC⇄phone sync still needs a backend (Firebase Storage + Firestore);
+  blob URLs are device-local and cannot travel between devices.
 
 ## Session History
 
@@ -118,3 +125,4 @@ feature areas from the brief map to web equivalents.
 | 2026-07-14 | Completed Phase 4 (mascot: idle/scroll-reactive/press states + tap feedback) |
 | 2026-07-14 | Completed Phase 5 (localization: 10 languages, settings page, 89-key parity) |
 | 2026-07-14 | Added delete (files + modal), NECROM word-by-word meaning, AI Assistant page |
+| 2026-07-14 | Account-scoped backup (per-email store + sync abstraction for future Firebase) |

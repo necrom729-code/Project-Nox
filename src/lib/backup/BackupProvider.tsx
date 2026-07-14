@@ -10,11 +10,9 @@ import {
   useState,
 } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import {
-  computeNext,
-  loadBackup,
-  saveBackup,
-} from "@/lib/backup/store";
+import { useAuth } from "@/lib/auth/AuthProvider";
+import { computeNext } from "@/lib/backup/store";
+import { localAccountSync as sync } from "@/lib/backup/sync";
 import type { BackupFile, BackupState, ScheduleFreq } from "@/lib/backup/types";
 import { ensureNotificationPermission, notify } from "@/lib/notifications";
 
@@ -31,14 +29,26 @@ const BackupContext = createContext<BackupValue | null>(null);
 
 export function BackupProvider({ children }: { children: React.ReactNode }) {
   const { t } = useI18n();
-  const [state, setState] = useState<BackupState>(loadBackup);
+  const { user } = useAuth();
+  const email = user?.email ?? null;
+
+  const [state, setState] = useState<BackupState>(() => sync.load(email));
   const [busy, setBusy] = useState(false);
   const stateRef = useRef(state);
   stateRef.current = state;
+  const emailRef = useRef(email);
+  emailRef.current = email;
+
+  // Reload the account's backup whenever the logged-in account changes
+  // (login, logout, or switching accounts) so the same email always maps to
+  // the same files.
+  useEffect(() => {
+    setState(sync.load(email));
+  }, [email]);
 
   const persist = useCallback((next: BackupState) => {
     setState(next);
-    saveBackup(next);
+    sync.save(emailRef.current, next);
   }, []);
 
   const setSchedule = useCallback(

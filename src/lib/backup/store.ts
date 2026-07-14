@@ -1,7 +1,5 @@
 import type { BackupState, ScheduleFreq } from "./types";
 
-const STORAGE_KEY = "necrom.backup";
-
 const DAY = 24 * 60 * 60 * 1000;
 
 export function computeNext(freq: ScheduleFreq, from = Date.now()): number | null {
@@ -10,16 +8,14 @@ export function computeNext(freq: ScheduleFreq, from = Date.now()): number | nul
   return from + delta;
 }
 
-export function loadBackup(): BackupState {
-  if (typeof window === "undefined") {
-    return { schedule: "daily", lastBackupAt: null, nextBackupAt: null, files: [] };
-  }
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw) as BackupState;
-  } catch {
-    // ignore
-  }
+// Backups are scoped to the account, not a single global bucket, so the same
+// email maps to the same files. "guest" covers the pre-login state.
+function keyFor(email?: string | null): string {
+  if (!email) return "necrom.backup.guest";
+  return `necrom.backup.${encodeURIComponent(email)}`;
+}
+
+export function defaultState(): BackupState {
   return {
     schedule: "daily",
     lastBackupAt: null,
@@ -28,7 +24,18 @@ export function loadBackup(): BackupState {
   };
 }
 
-export function saveBackup(state: BackupState): void {
+export function loadBackup(email?: string | null): BackupState {
+  if (typeof window === "undefined") return defaultState();
+  try {
+    const raw = localStorage.getItem(keyFor(email));
+    if (raw) return JSON.parse(raw) as BackupState;
+  } catch {
+    // ignore corrupt data
+  }
+  return defaultState();
+}
+
+export function saveBackup(state: BackupState, email?: string | null): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  localStorage.setItem(keyFor(email), JSON.stringify(state));
 }
