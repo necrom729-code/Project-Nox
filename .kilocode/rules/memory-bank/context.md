@@ -87,6 +87,19 @@ feature areas from the brief map to web equivalents.
 - Auth/backup are mocked locally (localStorage + object URLs); swap for Firebase
   later if infrastructure is decided.
 
+## Recent Fixes (post-launch)
+
+- **Media stopped / buttons dead**: disabled `reactStrictMode` in `next.config.ts`
+  — StrictMode double-mounted components in dev, tearing down `<video>`/`<audio>`
+  the instant a file opened ("stopped for no reason"). Now players stay mounted.
+- **Image viewer**: rewrote `ImageViewer.tsx` with free pan (drag from anywhere),
+  cursor-centered wheel zoom, two-finger pinch, clamped to viewport, zoom
+  buttons + reset. User can move the image freely at any size/position.
+- **Modal navigation**: `MediaModal` now takes `index`/`total`/`onNavigate` and
+  shows prev/next arrows so users can move between files without closing; inner
+  clicks can no longer close the modal. `FilesPage` passes these props.
+- **AudioPlayer**: play/pause now driven by `play`/`pause` events (no desync).
+
 ## Session History
 
 | Date | Changes |

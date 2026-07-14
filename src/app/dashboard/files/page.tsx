@@ -83,7 +83,13 @@ export default function FilesPage() {
       )}
 
       {selected && (
-        <MediaModal file={selected} onClose={() => setSelected(null)} />
+        <MediaModal
+          file={selected}
+          index={backedUp.findIndex((f) => f.id === selected.id)}
+          total={backedUp.length}
+          onNavigate={(i) => setSelected(backedUp[i])}
+          onClose={() => setSelected(null)}
+        />
       )}
     </div>
   );

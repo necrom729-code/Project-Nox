@@ -14,23 +14,25 @@ export function AudioPlayer({ url, name }: { url: string; name: string }) {
     if (!el) return;
     const onTime = () => setTime(el.currentTime);
     const onMeta = () => setDuration(el.duration || 0);
-    const onEnd = () => setPlaying(false);
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(false);
     el.addEventListener("timeupdate", onTime);
     el.addEventListener("loadedmetadata", onMeta);
-    el.addEventListener("ended", onEnd);
+    el.addEventListener("play", onPlay);
+    el.addEventListener("pause", onPause);
     return () => {
       el.removeEventListener("timeupdate", onTime);
       el.removeEventListener("loadedmetadata", onMeta);
-      el.removeEventListener("ended", onEnd);
+      el.removeEventListener("play", onPlay);
+      el.removeEventListener("pause", onPause);
     };
   }, [url]);
 
   function toggle() {
     const el = ref.current;
     if (!el) return;
-    if (playing) el.pause();
-    else void el.play();
-    setPlaying(!playing);
+    if (el.paused) void el.play();
+    else el.pause();
   }
 
   function seek(e: React.ChangeEvent<HTMLInputElement>) {
