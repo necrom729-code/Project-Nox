@@ -124,11 +124,11 @@ export const en: Dict = {
   deleteFile: "Delete",
 
   acronym: {
-    n: "Never",
-    e: "Ever",
-    c: "Corrupt",
-    r: "Ruins",
-    o: "Our",
+    n: "Network",
+    e: "Encrypt",
+    c: "Cloud",
+    r: "Redundant",
+    o: "Offsite",
     m: "Memories",
   },
 

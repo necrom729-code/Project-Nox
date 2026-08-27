@@ -103,7 +103,8 @@ feature areas from the brief map to web equivalents.
   button on each file card (`FilesPage`), each backup list row, and in `MediaModal`
   header. Delete key is top-level `deleteFile` (translated x10).
 - **NECROM meaning**: top-level `acronym` (n/e/c/r/o/m words) shown word-by-word on
-  the login screen under the mascot.
+  the login screen under the mascot. Updated to protection-themed words:
+  Network-Encrypt-Cloud-Redundant-Offsite-Memories.
 - **AI Assistant**: new `/dashboard/assistant` route + nav entry (Sparkles icon).
   Chat UI with the ghost avatar, keyword-matched canned replies (backup/restore/
   language), translatable `assistant.*` strings (x10). 12 routes total.

@@ -124,11 +124,11 @@ export const it: Dict = {
   deleteFile: "Elimina",
 
   acronym: {
-    n: "Mai",
-    e: "Mai",
-    c: "Crash",
-    r: "Rovina",
-    o: "I nostri",
+    n: "Rete",
+    e: "Crittografa",
+    c: "Cloud",
+    r: "Ridondante",
+    o: "Esterno",
     m: "Ricordi",
   },
 

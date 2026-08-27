@@ -124,11 +124,11 @@ export const ms: Dict = {
   deleteFile: "Padam",
 
   acronym: {
-    n: "Jangan",
-    e: "Sekali",
-    c: "Rosak",
-    r: "Hancur",
-    o: "Kita",
+    n: "Rangkaian",
+    e: "Sulitkan",
+    c: "Awan",
+    r: "Lebihan",
+    o: "Luar",
     m: "Kenangan",
   },
 
