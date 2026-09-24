@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/Button";
 
 type Msg = { id: string; role: "user" | "assistant"; text: string };
 
+const PERSONALITIES = ["Childish", "Kind", "Helpful", "Playful", "Serious"] as const;
+
 function cryptoId(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID();
@@ -31,34 +33,60 @@ function pickReply(text: string, t: (k: string) => string): string {
 }
 
 export default function AssistantPage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [messages, setMessages] = useState<Msg[]>([
     { id: "welcome", role: "assistant", text: t("assistant.welcome") },
   ]);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
+  const [personalities, setPersonalities] = useState<string[]>([]);
   const endRef = useRef<HTMLDivElement>(null);
 
   function scrollToEnd() {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }
 
-  function send() {
+  function togglePersonality(p: string) {
+    setPersonalities((prev) =>
+      prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p],
+    );
+  }
+
+  async function send() {
     const text = input.trim();
     if (!text || thinking) return;
     setMessages((m) => [...m, { id: cryptoId(), role: "user", text }]);
     setInput("");
     setThinking(true);
-    const reply = pickReply(text, t);
-    setTimeout(() => {
+    scrollToEnd();
+
+    try {
+      const res = await fetch("/api/assistant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: text,
+          personalities,
+          locale,
+        }),
+      });
+      if (!res.ok) throw new Error("API error");
+      const data = await res.json();
+      const reply: string = data.reply ?? t("assistant.fallback");
       setMessages((m) => [
         ...m,
         { id: cryptoId(), role: "assistant", text: reply },
       ]);
+    } catch {
+      const reply = pickReply(text, t);
+      setMessages((m) => [
+        ...m,
+        { id: cryptoId(), role: "assistant", text: reply },
+      ]);
+    } finally {
       setThinking(false);
       scrollToEnd();
-    }, 600);
-    scrollToEnd();
+    }
   }
 
   function clear() {
@@ -74,6 +102,29 @@ export default function AssistantPage() {
             {t("assistant.title")}
           </h1>
         </div>
+      </div>
+
+      <div className="mb-3 flex flex-wrap gap-2">
+        {PERSONALITIES.map((p) => (
+          <label
+            key={p}
+            className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1 text-xs transition-colors ${
+              personalities.includes(p)
+                ? "border-indigo-400 bg-indigo-500/20 text-indigo-200"
+                : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10"
+            }`}
+          >
+            <input
+              type="checkbox"
+              className="peer sr-only"
+              checked={personalities.includes(p)}
+              onChange={() => togglePersonality(p)}
+            />
+            <span className="peer-checked:hidden">+</span>
+            <span className="hidden peer-checked:inline">-</span>
+            {p}
+          </label>
+        ))}
       </div>
 
       <div className="flex-1 space-y-3 overflow-y-auto rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -117,6 +168,21 @@ export default function AssistantPage() {
         <Button variant="secondary" onClick={clear}>
           {t("assistant.clear")}
         </Button>
+      </div>
+
+      <div className="mt-4 rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+        <div className="flex items-center gap-2">
+          <Sparkles size={16} className="text-indigo-400" />
+          <span className="font-semibold text-white/90">NECROM</span>
+        </div>
+        <ul className="mt-2 space-y-1 text-white/70">
+          <li><strong>N</strong> = Network</li>
+          <li><strong>E</strong> = Efficient</li>
+          <li><strong>C</strong> = Cloud</li>
+          <li><strong>R</strong> = Recovery</li>
+          <li><strong>O</strong> = Operations</li>
+          <li><strong>M</strong> = Manager</li>
+        </ul>
       </div>
     </div>
   );

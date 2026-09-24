@@ -1,10 +1,16 @@
 import type { BackupFile, MediaKind } from "./types";
 
-export function kindFromType(type: string): MediaKind {
+export function kindFromType(type: string, name: string = ""): MediaKind {
+  const n = name.toLowerCase();
   if (type.startsWith("image/")) return "photo";
   if (type.startsWith("video/")) return "video";
-  if (type.startsWith("audio/")) return "audio";
-  return "document";
+  if (type.startsWith("audio/")) {
+    // Heuristic: voice memos / recordings often have "voice", "memo", "recording" in name
+    if (/(voice|memo|recording|rec|dictation)/i.test(n)) return "voice";
+    return "audio";
+  }
+  if (/(\.pdf|\.doc|\.docx|\.txt|\.rtf|\.odt|\.xls|\.xlsx|\.ppt|\.pptx|\.md|\.csv)$/i.test(n)) return "document";
+  return "other";
 }
 
 export function newId(): string {
@@ -14,17 +20,28 @@ export function newId(): string {
   return `${Date.now()}-${Math.random()}`;
 }
 
-// Build a backup entry that points at a server-hosted URL (cross-device safe),
-// rather than a device-local blob: URL.
 export function makeBackupFile(file: File, url: string): BackupFile {
   return {
     id: newId(),
     name: file.name,
-    kind: kindFromType(file.type || ""),
+    kind: kindFromType(file.type || "", file.name),
     size: file.size,
     addedAt: Date.now(),
     status: "pending",
     url,
+  };
+}
+
+export function makeVoiceFile(blob: Blob, name: string, url: string, duration: number): BackupFile {
+  return {
+    id: newId(),
+    name,
+    kind: "voice",
+    size: blob.size,
+    addedAt: Date.now(),
+    status: "pending",
+    url,
+    duration,
   };
 }
 

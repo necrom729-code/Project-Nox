@@ -1,4 +1,10 @@
-export type MediaKind = "document" | "photo" | "video" | "audio";
+export type MediaKind =
+  | "document"
+  | "photo"
+  | "video"
+  | "audio"
+  | "voice"
+  | "other";
 
 export type BackupFile = {
   id: string;
@@ -6,8 +12,9 @@ export type BackupFile = {
   kind: MediaKind;
   size: number;
   addedAt: number;
-  status: "backed-up" | "pending";
+  status: "backed-up" | "pending" | "uploading" | "failed";
   url?: string;
+  duration?: number; // for audio/voice/voice recordings, in seconds
 };
 
 export type ScheduleFreq = "daily" | "weekly" | "off";
@@ -17,4 +24,6 @@ export type BackupState = {
   lastBackupAt: number | null;
   nextBackupAt: number | null;
   files: BackupFile[];
+  storageUsed: number; // bytes used
+  storageLimit: number; // bytes allowed (default 5GB)
 };

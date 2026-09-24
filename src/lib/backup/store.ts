@@ -1,6 +1,7 @@
 import type { BackupState, ScheduleFreq } from "./types";
 
 const DAY = 24 * 60 * 60 * 1000;
+const STORAGE_LIMIT = 5 * 1024 * 1024 * 1024; // 5 GB
 
 export function computeNext(freq: ScheduleFreq, from = Date.now()): number | null {
   if (freq === "off") return null;
@@ -8,8 +9,6 @@ export function computeNext(freq: ScheduleFreq, from = Date.now()): number | nul
   return from + delta;
 }
 
-// Backups are scoped to the account, not a single global bucket, so the same
-// email maps to the same files. "guest" covers the pre-login state.
 function keyFor(email?: string | null): string {
   if (!email) return "necrom.backup.guest";
   return `necrom.backup.${encodeURIComponent(email)}`;
@@ -21,6 +20,8 @@ export function defaultState(): BackupState {
     lastBackupAt: null,
     nextBackupAt: computeNext("daily"),
     files: [],
+    storageUsed: 0,
+    storageLimit: STORAGE_LIMIT,
   };
 }
 
@@ -28,7 +29,12 @@ export function loadBackup(email?: string | null): BackupState {
   if (typeof window === "undefined") return defaultState();
   try {
     const raw = localStorage.getItem(keyFor(email));
-    if (raw) return JSON.parse(raw) as BackupState;
+    if (raw) {
+      const parsed = JSON.parse(raw) as BackupState;
+      parsed.storageLimit = STORAGE_LIMIT;
+      parsed.storageUsed = parsed.storageUsed || 0;
+      return parsed;
+    }
   } catch {
     // ignore corrupt data
   }

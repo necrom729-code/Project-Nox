@@ -86,6 +86,8 @@ export const th: Dict = {
       photo: "รูปภาพ",
       video: "วิดีโอ",
       audio: "เสียง",
+      voice: "เสียง",
+      other: "อื่นๆ",
     },
   },
   restore: {
@@ -103,7 +105,9 @@ export const th: Dict = {
     photo: "รูปภาพ",
     video: "วิดีโอ",
     audio: "เสียง",
+    voice: "เสียง",
     document: "เอกสาร",
+    other: "อื่นๆ",
     zoomHint: "บีบหรือเลื่อนเพื่อซูม",
     play: "เล่น",
     pause: "หยุดชั่วคราว",

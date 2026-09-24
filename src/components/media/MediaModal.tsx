@@ -71,13 +71,30 @@ export function MediaModal({
           {file.kind === "video" && (
             <VideoPlayer url={file.url} name={file.name} />
           )}
-          {file.kind === "audio" && (
+          {(file.kind === "audio" || file.kind === "voice") && (
             <div className="flex h-full items-center justify-center">
-              <AudioPlayer url={file.url} name={file.name} />
+              <AudioPlayer
+                url={file.url}
+                name={file.name}
+                duration={file.duration}
+              />
             </div>
           )}
           {file.kind === "document" && (
             <DocumentViewer url={file.url} name={file.name} />
+          )}
+          {file.kind === "other" && (
+            <div className="flex h-full flex-col items-center justify-center gap-4">
+              <PackageIcon />
+              <p className="text-white/60">{file.name}</p>
+              <a
+                href={file.url}
+                download={file.name}
+                className="rounded-lg bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-500"
+              >
+                {t("media.download")}
+              </a>
+            </div>
           )}
 
           {canPrev && (
@@ -101,5 +118,23 @@ export function MediaModal({
         </div>
       </div>
     </div>
+  );
+}
+
+function PackageIcon() {
+  return (
+    <svg
+      width="64"
+      height="64"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      className="text-white/40"
+    >
+      <path d="M12 2L2 7l10 5 10-5-10-5z" />
+      <path d="M2 17l10 5 10-5" />
+      <path d="M2 12l10 5 10-5" />
+    </svg>
   );
 }

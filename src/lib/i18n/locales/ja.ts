@@ -86,6 +86,8 @@ export const ja: Dict = {
       photo: "写真",
       video: "動画",
       audio: "音声",
+      voice: "音声",
+      other: "その他",
     },
   },
   restore: {
@@ -103,7 +105,9 @@ export const ja: Dict = {
     photo: "写真",
     video: "動画",
     audio: "音声",
+    voice: "音声",
     document: "書類",
+    other: "その他",
     zoomHint: "ピンチまたはスクロールでズーム",
     play: "再生",
     pause: "一時停止",

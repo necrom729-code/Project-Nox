@@ -86,6 +86,8 @@ export const it: Dict = {
       photo: "Foto",
       video: "Video",
       audio: "Audio",
+      voice: "Voce",
+      other: "Altri",
     },
   },
   restore: {
@@ -103,7 +105,9 @@ export const it: Dict = {
     photo: "Foto",
     video: "Video",
     audio: "Audio",
+    voice: "Voce",
     document: "Documenti",
+    other: "Altri",
     zoomHint: "Pizzica o scorri per ingrandire",
     play: "Riproduci",
     pause: "Pausa",

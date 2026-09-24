@@ -86,7 +86,11 @@ export const en: Dict = {
       photo: "Photo",
       video: "Video",
       audio: "Audio",
+      voice: "Voice",
+      other: "Others",
     },
+    quotaNear: "Near storage limit",
+    failedFiles: "failed uploads",
   },
   restore: {
     title: "Restore",
@@ -97,13 +101,15 @@ export const en: Dict = {
     empty: "Nothing to restore yet.",
     done: "Restored {name}",
   },
-  media: {
+media: {
     title: "My Files",
     subtitle: "Preview and play your backed-up media.",
     photo: "Photos",
     video: "Videos",
     audio: "Audio",
+    voice: "Voice",
     document: "Documents",
+    other: "Others",
     zoomHint: "Pinch or scroll to zoom",
     play: "Play",
     pause: "Pause",
@@ -120,7 +126,6 @@ export const en: Dict = {
     successBody: "{count} files are safe.",
     failureBody: "Something went wrong. We'll try again.",
   },
-
   deleteFile: "Delete",
 
   acronym: {
