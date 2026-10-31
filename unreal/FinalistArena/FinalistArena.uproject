@@ -1,0 +1,13 @@
+{
+  "FileVersion": 3,
+  "EngineAssociation": "5.4",
+  "Category": "Game",
+  "Description": "Finalist Arena - 100 player survival battle royale",
+  "Modules": [
+    { "Name": "FinalistArena", "Type": "Runtime", "LoadingPhase": "Default" }
+  ],
+  "Plugins": [
+    { "Name": "GameplayAbilities", "Enabled": true },
+    { "Name": "ModelingToolsEditorMode", "Enabled": false }
+  ]
+}

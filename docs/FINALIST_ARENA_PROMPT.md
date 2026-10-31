@@ -105,3 +105,8 @@ None. No microtransactions, no loot boxes, no pay-to-win. Fair, skill-based, com
 
 ## 17. Milestones
 M1 vertical slice: 1 biome, 8 players, vitals, crafting. M2 combat and AI. M3 zones and Mega-Dangers. M4 100-player dedicated server load test. M5 voice, teams, hype integration. M6 art/audio/cutscene polish. M7 tutorial, beta, anti-cheat.
+
+## 18. Delivered Assets (repo)
+- `audio/finalist_arena_main_menu.wav` — 96 s procedural main-menu theme (D minor, 70 BPM): drone > strings > war drums/choir > crowd glory anthem > horror warp. Regenerate with `python3 tools/make_menu_theme.py audio`. Placeholder to be replaced by a composer's final mix; import into UE as a MetaSound wave with loop on.
+- `audio/finalist_arena_main_menu_lowhp.wav` — preview of the critical-health distortion (low-pass, wobble, bit-crush, heartbeat). In-game, do this in real time by driving MetaSound params from `UVitalsComponent::GetCriticalAlpha()`.
+- `unreal/FinalistArena/` — UE 5.4 project skeleton with the replicated `UVitalsComponent` (Health/Stamina/Hygiene/Sleep). **Not compiled here** (no Unreal Engine in this environment); open the .uproject on your PC and generate project files.
